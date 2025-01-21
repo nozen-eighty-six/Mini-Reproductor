@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import SwiperSlider from "../../components/Home/SwiperSlider";
-import PlayerNav from "../../components/q";
 
 const Home = () => {
   useEffect(() => {

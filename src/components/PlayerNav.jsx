@@ -72,8 +72,8 @@ const PlayerNav = () => {
               <span className="user__type text-white/75 bg-[#082b33] text-sm rounded-full w-max px-[20px] py-0">
                 {Object.keys(user).length === 0
                   ? ""
-                  : user.roles[0]?.name.charAt(0).toUpperCase() +
-                    user.roles[0]?.name.substring(1).toLowerCase}
+                  : user.roles[0].name.charAt(0).toUpperCase() +
+                    user.roles[0].name.substring(1).toLowerCase()}
               </span>
             </div>
           </div>
