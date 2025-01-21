@@ -1,12 +1,28 @@
 import React, { useState, useRef } from "react";
+import { useSelector } from "react-redux";
 
-const SeekBar = ({ duration, currentTime, onSeek }) => {
+const SeekBar = ({ duration, currentTime, onSeek, audioElement }) => {
+  const seekBarRef = useRef(0);
   console.log("SeekBar ");
-  const [isDragging, setIsDragging] = useState(false);
+  //const [isDragging, setIsDragging] = useState(false);
   const progressRef = useRef(null);
-
+  const { currentTimeP } = useSelector((state) => state.playback);
   // Calcula el porcentaje del progreso actual
+  /*(if (currentTimeP > 0) {
+    currentTime = currentTimeP;
+  }
+
+  const progressPercentage =
+    currentTime != 0
+      ? (currentTimeP / duration) * 100
+      : (currentTime / duration) * 100;
+*/
+
   const progressPercentage = (currentTime / duration) * 100;
+  if (currentTimeP > 0 && audioElement.current && seekBarRef.current === 0) {
+    onSeek(Math.min(Math.max(currentTimeP, 0), duration)); // Límite entre 0 y duración
+    seekBarRef.current = 1;
+  }
 
   const handleDrag = (e) => {
     const rect = progressRef.current.getBoundingClientRect();
