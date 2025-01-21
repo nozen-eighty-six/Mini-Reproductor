@@ -1,17 +1,32 @@
 import { createPortal } from "react-dom";
 import SeekBar from "./SeekBar";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import AudioPlayer from "./AudioPlayer";
 import ArtistPlayer from "./ArtistPlayer";
 import OptionsPlayer from "./OptionsPlayer";
+import { useDispatch, useSelector } from "react-redux";
+import { setVolumen } from "../../redux/playBackSlice";
 const MusicPlayerFooter = () => {
+  const audioElement = useRef(null);
+  const state = useSelector((state) => state.songs);
+  const dispatch = useDispatch();
+  console.log(state);
   return createPortal(
     <footer className="music-player-footer bg-[#181b22] h-[100px] ">
       <div className="nav__container h-full flex justify-between items-center ">
-        <ArtistPlayer />
+        <ArtistPlayer
+          songTitle={state.currentSong?.title || ""}
+          artistName={state.currentSong?.artist || ""}
+        />
 
-        <AudioPlayer />
-        <OptionsPlayer />
+        <AudioPlayer
+          url={state.currentSong?.cover || ""}
+          audioElement={audioElement}
+        />
+        <OptionsPlayer
+          onSeek={(newVolume) => dispatch(setVolumen(newVolume))}
+          audioElement={audioElement}
+        />
       </div>
     </footer>,
     document.body
