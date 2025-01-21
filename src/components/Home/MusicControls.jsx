@@ -1,10 +1,13 @@
-import { memo, useState } from "react";
+import { memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setPlaying } from "../../redux/playBackSlice";
 
 const MusicControls = memo(({ play, stop }) => {
   console.log("MusicControls render");
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { isPlaying } = useSelector((state) => state.playback);
+  const dispatch = useDispatch();
   const handlePlay = () => {
-    setIsPlaying(!isPlaying);
+    dispatch(setPlaying(!isPlaying));
   };
   return (
     <div className="music__controls w-max text-white  flex justify-between items-center gap-3 ">
