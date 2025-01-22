@@ -11,7 +11,7 @@ const MusicControls = memo(({ play, stop }) => {
   };
   return (
     <div className="music__controls w-max text-white  flex justify-between items-center gap-3 ">
-      <i className="ri-skip-back-line "></i>
+      <i className="ri-skip-back-line xs:hidden lg:inline "></i>
       <button onClick={handlePlay}>
         {isPlaying ? (
           <i
@@ -27,7 +27,7 @@ const MusicControls = memo(({ play, stop }) => {
           </i>
         )}
       </button>
-      <i className="ri-skip-forward-line "></i>
+      <i className="ri-skip-forward-line xs:hidden lg:inline "></i>
     </div>
   );
 });
