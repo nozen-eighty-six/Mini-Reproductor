@@ -12,7 +12,7 @@ const MusicPlayerFooter = () => {
   const dispatch = useDispatch();
   console.log(state);
   return createPortal(
-    <footer className="music-player-footer bg-[#181b22] h-[100px] ">
+    <footer className="music-player-footer xs:hidden lg:block bg-[#181b22] h-[100px] ">
       <div className="nav__container h-full flex justify-between items-center ">
         <ArtistPlayer
           songTitle={state.currentSong?.title || ""}
