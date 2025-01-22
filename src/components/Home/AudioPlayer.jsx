@@ -4,8 +4,10 @@ import MusicControls from "./MusicControls";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentTimeP, setDurationP } from "../../redux/playBackSlice";
 import PropTypes from "prop-types";
+import SeekBarResponsive from "./SeekBarResponsive";
 const AudioPlayer = ({ url, audioElement }) => {
   console.log("AudioPlayer ");
+  const currentWidth = window.innerWidth;
   const { isPlaying, loop } = useSelector((state) => state.playback);
   const audioPlayerRef = useRef(0);
   const { currentSong } = useSelector((state) => state.songs);
@@ -46,7 +48,10 @@ const AudioPlayer = ({ url, audioElement }) => {
   }, []);
   return (
     <>
-      <div className="flex flex-col items-center gap-2">
+      <div
+        id="audio-player"
+        className="audio-player flex flex-col items-center gap-2"
+      >
         <MusicControls play={play} stop={stop} />
 
         <audio
@@ -59,12 +64,21 @@ const AudioPlayer = ({ url, audioElement }) => {
           onPause={handlePause}
           loop={loop}
         ></audio>
-        <SeekBar
-          duration={duration}
-          currentTime={currentTime}
-          audioElement={audioElement}
-          onSeek={(newTime) => (audioElement.current.currentTime = newTime)}
-        />
+        {currentWidth < 1024 ? (
+          <SeekBarResponsive
+            duration={duration}
+            currentTime={currentTime}
+            audioElement={audioElement}
+            onSeek={(newTime) => (audioElement.current.currentTime = newTime)}
+          />
+        ) : (
+          <SeekBar
+            duration={duration}
+            currentTime={currentTime}
+            audioElement={audioElement}
+            onSeek={(newTime) => (audioElement.current.currentTime = newTime)}
+          />
+        )}
       </div>
     </>
   );
