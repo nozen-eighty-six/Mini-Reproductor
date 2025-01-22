@@ -69,8 +69,8 @@ const PlayerNav = () => {
           </div>
         </nav>
       </header>
-      <div className="nav__options xs:hidden lg:block ">
-        <div className="h-full  flex justify-between ">
+      <div className="nav__options  ">
+        <div className="xs:hidden lg:flex h-full   justify-between ">
           <form
             action=""
             className="nav__search flex items-center h-[45px] w-[480px] py-[10px] px-5 bg-[#23262d] rounded-3xl"
@@ -104,6 +104,12 @@ const PlayerNav = () => {
               </span>
             </div>
           </div>
+        </div>
+        <div className="mobile_nav__options xs:flex lg:hidden h-full w-[90%]  mx-auto  border justify-between items-center">
+          <span className="text-white">Buenas noches</span>
+          <button className="nav__options__mobile__config_btn white p-2 ">
+            <i className="ri-settings-3-line text-2xl text-white"></i>
+          </button>
         </div>
       </div>
       <MusicPlayer />
