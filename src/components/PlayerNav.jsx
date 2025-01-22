@@ -1,6 +1,7 @@
 import { NavLink } from "react-router";
 import MusicPlayerFooter from "./Home/MusicPlayerFooter";
 import { useSelector } from "react-redux";
+import MusicPlayer from "./Home/MusicPlayer";
 
 const PlayerNav = () => {
   const { user } = useSelector((state) => state.user);
@@ -9,40 +10,51 @@ const PlayerNav = () => {
   return (
     <>
       <header className="header     w-full h-full  ">
-        <nav className="nav  h-full   rounded-t-2xl rounded-b-2xl bg-[#181b22] flex flex-col py-4 px-3 text-xl ">
+        <nav className="nav  h-full   lg:rounded-t-2xl lg:rounded-b-2xl bg-[#181b22] lg:flex lg:flex-col lg:py-4 lg:px-3 text-xl ">
           <a
             href="/"
-            className="nav__logo inline-flex justify-center items-center mb-16 text-white gap-y-5 gap-x-2  "
+            className="nav__logo   justify-center items-center mb-16 text-white gap-y-5 gap-x-2 
+              xs:hidden lg:inline-flex 
+            "
           >
             <img src="/Images/azur-lane-logo.png" alt="" className="w-[15%]" />
-            MiniPlayer
+            <span className="xs:hidden lg:inline">MiniPlayer</span>
           </a>
 
-          <div className="nav__menu ">
-            <ul className="nav__list flex flex-col gap-2 text-white ">
+          <div className="nav__menu   xs:w-full xs:h-full ">
+            <ul className="nav__list flex xs:w-full xs:h-full xs:flex-row xs:justify-between lg:flex-col lg:justify-normal gap-2 text-white ">
               <li className="nav__item">
                 <NavLink to={"/"} className="nav__link   w-full h-full">
                   <i className="ri-home-line"></i>
-                  Home
+                  <span className="xs:hidden lg:inline">Home</span>
                 </NavLink>
               </li>
               <li className="nav__item">
                 <NavLink to={"/categories"} className="nav__link w-full h-full">
                   <i className="ri-list-unordered"></i>
-                  Categories
+                  <span className="xs:hidden lg:inline">Categories</span>
                 </NavLink>
               </li>
               <li className="nav__item">
                 <NavLink to={"/playlist"} className="nav__link w-full h-full">
                   <i className="ri-play-list-line"></i>
-                  Playlist
+                  <span className="xs:hidden lg:inline">Playlist</span>
+                </NavLink>
+              </li>
+              <li className="nav__item lg:hidden">
+                <NavLink to={"/playlist"} className="nav__link w-full h-full">
+                  <img
+                    src="/Images/azur-lane-logo.png"
+                    alt=""
+                    className="xs:w-[25px] lg:w-[15%]"
+                  />
                 </NavLink>
               </li>
             </ul>
           </div>
         </nav>
       </header>
-      <div className="nav__options  ">
+      <div className="nav__options xs:hidden lg:block ">
         <div className="h-full  flex justify-between ">
           <form
             action=""
@@ -79,6 +91,7 @@ const PlayerNav = () => {
           </div>
         </div>
       </div>
+      <MusicPlayer />
       <MusicPlayerFooter />
     </>
   );
