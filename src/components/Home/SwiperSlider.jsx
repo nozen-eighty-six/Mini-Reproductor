@@ -12,7 +12,8 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 const SwiperSlider = () => {
   return (
-    <section className="swiper__images text-white  grid pb-5  ">
+    //
+    <section className="swiper__images xs:items-center lg:items-start text-white  grid pb-5  ">
       <Swiper
         className="home__swiper    h-[380px]"
         modules={[Autoplay]}
