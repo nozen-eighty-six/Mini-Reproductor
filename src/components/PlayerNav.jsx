@@ -24,30 +24,45 @@ const PlayerNav = () => {
           <div className="nav__menu   xs:w-full xs:h-full ">
             <ul className="nav__list flex xs:w-full xs:h-full xs:flex-row xs:justify-between lg:flex-col lg:justify-normal gap-2 text-white ">
               <li className="nav__item">
-                <NavLink to={"/"} className="nav__link   w-full h-full">
+                <NavLink
+                  to={"/"}
+                  className="nav__link xs:inline-flex xs:flex-col xs:justify-center lg:flex-row lg:justify-normal   w-full h-full"
+                >
                   <i className="ri-home-line"></i>
-                  <span className="xs:hidden lg:inline">Home</span>
+                  <span className=" lg:inline">Home</span>
                 </NavLink>
               </li>
               <li className="nav__item">
-                <NavLink to={"/categories"} className="nav__link w-full h-full">
+                <NavLink
+                  to={"/categories"}
+                  className="nav__link xs:inline-flex xs:flex-col xs:justify-center lg:flex-row lg:justify-normal w-full h-full"
+                >
                   <i className="ri-list-unordered"></i>
-                  <span className="xs:hidden lg:inline">Categories</span>
+                  <span className=" lg:inline">Categories</span>
                 </NavLink>
               </li>
               <li className="nav__item">
-                <NavLink to={"/playlist"} className="nav__link w-full h-full">
+                <NavLink
+                  to={"/playlist"}
+                  className="nav__link xs:inline-flex xs:flex-col xs:justify-center lg:flex-row lg:justify-normal w-full h-full"
+                >
                   <i className="ri-play-list-line"></i>
-                  <span className="xs:hidden lg:inline">Playlist</span>
+                  <span className=" lg:inline">Playlist</span>
                 </NavLink>
               </li>
               <li className="nav__item lg:hidden">
-                <NavLink to={"/playlist"} className="nav__link w-full h-full">
+                <NavLink
+                  to={"/playlist"}
+                  className="nav__link xs:inline-flex xs:flex-col xs:justify-center xs:gap-1  lg:flex-row lg:justify-normal  w-full h-full"
+                >
                   <img
                     src="/Images/azur-lane-logo.png"
                     alt=""
-                    className="xs:w-[25px] lg:w-[15%]"
+                    className="xs:w-[30px] lg:w-[15%]"
                   />
+                  <span className=" lg:inline leading-[15px] text-center">
+                    Mini Player
+                  </span>
                 </NavLink>
               </li>
             </ul>
