@@ -63,6 +63,11 @@ img {
   margin-inline: auto;
 }
 
+/*FONT RESPONSIVE*/
+span {
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+}
+
 /*=============== SWIPER-SLIDER ===============*/
 .home__swiper {
   margin: initial !important;
@@ -79,6 +84,7 @@ img {
 .swiper__article {
   scale: 0.8;
 }
+
 /*=============== MUSIC-PLAYER-FOOTER ===============*/
 
 .music__controls i {
@@ -227,14 +233,20 @@ img {
     height: 100%;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 80px 70px;
+    grid-template-rows: 70px 1fr 80px 70px;
     gap: 0.6rem;
+  }
+
+  /*NAV OPTIONS*/
+  .nav__options {
+    grid-column: 1/2;
+    grid-row: 1/2;
   }
 
   /*MusicPlayer*/
   .music-player {
     grid-column: 1/2;
-    grid-row: 2/3;
+    grid-row: 3/4;
   }
   /*Header*/
 
@@ -252,12 +264,12 @@ img {
   .header {
     height: 70px;
     grid-column: 1 / 2;
-    grid-row: 3 / 4;
+    grid-row: 4 / 5;
   }
   /*Home*/
   .swiper__images {
     grid-column: 1/2;
-    grid-row: 1/2;
+    grid-row: 2/3;
   }
   /*He tomado en cuenta el tamaño mínimo en el que estará el slider, menos el margin-right que se le da*/
   .swiper__article,
