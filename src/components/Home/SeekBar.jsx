@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
 
 const SeekBar = ({ duration, currentTime, onSeek, audioElement }) => {
@@ -7,6 +8,7 @@ const SeekBar = ({ duration, currentTime, onSeek, audioElement }) => {
   //const [isDragging, setIsDragging] = useState(false);
   const progressRef = useRef(null);
   const { currentTimeP } = useSelector((state) => state.playback);
+
   // Calcula el porcentaje del progreso actual
   /*(if (currentTimeP > 0) {
     currentTime = currentTimeP;
@@ -32,7 +34,9 @@ const SeekBar = ({ duration, currentTime, onSeek, audioElement }) => {
   };
 
   return (
-    <div className=" w-[600px] h-full flex flex-col gap-1 items-center justify-center  ">
+    <div
+      className={` w-[600px] h-full flex flex-col gap-1 items-center justify-center `}
+    >
       {/* Barra de progreso */}
       <div
         ref={progressRef}
@@ -53,10 +57,14 @@ const SeekBar = ({ duration, currentTime, onSeek, audioElement }) => {
       <div className="flex justify-between w-full">
         {/* Tiempo transcurrido */}
 
-        <span className="text-sm text-gray-400">{formatTime(currentTime)}</span>
+        <span className="text-sm text-gray-400 xs:hidden lg:inline">
+          {formatTime(currentTime)}
+        </span>
 
         {/* Tiempo total */}
-        <span className="text-sm text-gray-400">{formatTime(duration)}</span>
+        <span className="text-sm text-gray-400 xs:hidden lg:inline">
+          {formatTime(duration)}
+        </span>
       </div>
     </div>
   );
