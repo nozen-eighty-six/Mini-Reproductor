@@ -5,15 +5,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentTimeP, setDurationP } from "../../redux/playBackSlice";
 import PropTypes from "prop-types";
 import SeekBarResponsive from "./SeekBarResponsive";
+import { getCurrentMp3FromIndexedDB } from "../../services/indexedDBController";
 const AudioPlayer = ({ url, audioElement }) => {
-  console.log("AudioPlayer ");
   const currentWidth = window.innerWidth;
   const { isPlaying, loop } = useSelector((state) => state.playback);
   const audioPlayerRef = useRef(0);
-  const { currentSong } = useSelector((state) => state.songs);
+  const [currentSong, setCurrentSong] = useState({});
   const dispatch = useDispatch();
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  useEffect(() => {
+    const getCurrentSong = async () => {
+      const song = await getCurrentMp3FromIndexedDB(1);
+      setCurrentSong(song);
+    };
+    getCurrentSong();
+  }, []);
 
   const handleTimeUpdate = () => {
     setCurrentTime(audioElement.current.currentTime);
@@ -25,11 +33,18 @@ const AudioPlayer = ({ url, audioElement }) => {
   };
 
   const play = useCallback(() => {
-    if (audioElement.current !== null) audioElement.current.play();
+    if (audioElement.current !== null) {
+      console.log("Función play");
+      audioElement.current.play();
+    }
   }, [audioElement]);
 
   const stop = useCallback(() => {
-    audioElement.current.pause();
+    if (audioElement.current !== null) {
+      console.log("Función play");
+
+      audioElement.current.pause();
+    }
   }, [audioElement]);
 
   const handlePause = () => {
@@ -37,12 +52,11 @@ const AudioPlayer = ({ url, audioElement }) => {
     dispatch(setCurrentTimeP(currentTime)); // Usamos la acción del slice
   };
 
-  if (isPlaying && isPlaying !== null) {
+  /* if (isPlaying && isPlaying !== null) {
     console.log("Playing");
     play();
-  }
+  }*/
 
-  console.log(url);
   useEffect(() => {
     return () => (audioPlayerRef.current = 0);
   }, []);

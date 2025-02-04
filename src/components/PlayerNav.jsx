@@ -2,13 +2,27 @@ import { NavLink } from "react-router";
 import MusicPlayerFooter from "./Home/MusicPlayerFooter";
 import { useSelector } from "react-redux";
 import MusicPlayer from "./Home/MusicPlayer";
+import { getGreetingByTime } from "../services/greeting";
+import UserMenu from "./Home/User/UserMenu";
+import { useState } from "react";
 
 const PlayerNav = () => {
   const { user } = useSelector((state) => state.user);
-  console.log("PlayerNav");
-  console.log(user);
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleShowMenu = () => {
+    if (!showMenu == false) {
+      const timeOut = setTimeout(() => {
+        console.log("timeout");
+        clearTimeout(timeOut);
+        setShowMenu(!showMenu);
+      }, 600);
+    } else setShowMenu(!showMenu);
+  };
+
   return (
     <>
+      {showMenu && <UserMenu handleShowMenu={handleShowMenu} />}
       <header className="header     w-full h-full  ">
         <nav className="nav  h-full   lg:rounded-t-2xl lg:rounded-b-2xl bg-[#181b22] lg:flex lg:flex-col lg:py-4 lg:px-3 text-xl ">
           <a
@@ -52,7 +66,7 @@ const PlayerNav = () => {
               </li>
               <li className="nav__item lg:hidden">
                 <NavLink
-                  to={"/playlist"}
+                  to={"/logo"}
                   className="nav__link xs:inline-flex xs:flex-col xs:justify-center xs:gap-1  lg:flex-row lg:justify-normal  w-full h-full"
                 >
                   <img
@@ -82,9 +96,16 @@ const PlayerNav = () => {
             />
             <i className="ri-search-line search__icon bg-[#23262d] text-[#646568] text-2xl cursor-pointer"></i>
           </form>
-          <div className="user__options  flex gap-3  items-center">
+          <div
+            className="user__options  flex gap-3  items-center lg:cursor-pointer lg:relative"
+            onClick={handleShowMenu}
+          >
             <div className="user__avatar  ">
-              <a href="" className="user__avatar-link w-full  ">
+              <a
+                href=""
+                className="user__avatar-link w-full  "
+                onClick={(e) => e.preventDefault()}
+              >
                 <img
                   src="/Images/user-avatar.jpg"
                   alt=""
@@ -93,21 +114,28 @@ const PlayerNav = () => {
               </a>
             </div>
             <div className="user__info flex flex-col justify-center gap-1">
-              <span className="user__name text-white text-sm font-bold">
-                {user.name || ""}
+              <span className="user__name text-white text-sm font-bold w-[60px]  overflow-hidden whitespace-nowrap overflow-ellipsis">
+                {user?.name || user?.email}
               </span>
-              <span className="user__type text-white/75 bg-[#082b33] text-sm rounded-full w-max px-[20px] py-0">
-                {Object.keys(user).length === 0
-                  ? ""
-                  : user.roles[0].name.charAt(0).toUpperCase() +
-                    user.roles[0].name.substring(1).toLowerCase()}
+              {/*
+                <span className="user__type text-white/75 bg-[#082b33] text-sm rounded-full w-max px-[20px] py-0">
+                  {user != null
+                    ? Object.keys(user).length === 0
+                      ? ""
+                      : user.roles[0].name.charAt(0).toUpperCase() +
+                        user.roles[0].name.substring(1).toLowerCase()
+                    : "Unknown"}
               </span>
+              */}
             </div>
           </div>
         </div>
-        <div className="mobile_nav__options xs:flex lg:hidden h-full w-[90%]  mx-auto  border justify-between items-center">
-          <span className="text-white">Buenas noches</span>
-          <button className="nav__options__mobile__config_btn white p-2 ">
+        <div className="mobile_nav__options xs:flex lg:hidden h-full w-[90%]  mx-auto   justify-between items-center">
+          <span className="text-white">{getGreetingByTime()}</span>
+          <button
+            className="nav__options__mobile__config_btn white p-2 "
+            onClick={handleShowMenu}
+          >
             <i className="ri-settings-3-line text-2xl text-white"></i>
           </button>
         </div>

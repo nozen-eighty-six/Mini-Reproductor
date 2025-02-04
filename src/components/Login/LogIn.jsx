@@ -67,7 +67,7 @@ const LogIn = ({ login, handleLogin }) => {
   return (
     <>
       <div
-        className={`log__in login-animate-fadeInUp sm:w-[100%] md:w-[550px]  lg:w-[450px]`}
+        className={`log__in login-animate-fadeInUp xs:w-[100%] md:w-[550px]  lg:w-[450px]`}
         onAnimationEnd={(e) => {
           e.target.classList.remove("login-animate-fadeInUp");
         }}
@@ -76,7 +76,7 @@ const LogIn = ({ login, handleLogin }) => {
           <h2 className="text-[clamp(2rem,4vw,3.5rem)]  text-white mb-2">
             Log In
           </h2>
-          <span className="text-[clamp(0.875rem, 1.5vw, 1rem)]  text-white/80 inline-flex gap-2">
+          <span className="text-[clamp(0.875rem,1.5vw,1rem)]  text-white/80 inline-flex gap-2">
             {"You do not have an account?"}
             <a
               href="#"
@@ -99,7 +99,7 @@ const LogIn = ({ login, handleLogin }) => {
                 name="email"
                 type="email"
                 placeholder="Email"
-                className="py-3 px-3"
+                className="py-3 px-3 text-[clamp(1rem,2vw,1.25rem)]"
                 value={form.email || ""}
                 onChange={handleChange}
               />
@@ -107,7 +107,7 @@ const LogIn = ({ login, handleLogin }) => {
                 name="password"
                 type="password"
                 placeholder="Enter your password"
-                className="py-3 px-3"
+                className="py-3 px-3 text-[clamp(1rem,2vw,1.25rem)]"
                 value={form.password || ""}
                 onChange={handleChange}
               />
@@ -115,7 +115,7 @@ const LogIn = ({ login, handleLogin }) => {
           </form>
           <button
             type="submit"
-            className="w-full bg-[#6e54b5] text-white py-2 px-3 rounded-md"
+            className="w-full bg-[#6e54b5] text-white py-2 px-3 rounded-md text-[clamp(1rem,2vw,1.25rem)]"
             onClick={verifyUser}
           >
             Log In

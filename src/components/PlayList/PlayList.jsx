@@ -1,13 +1,18 @@
-import { useDispatch, useSelector } from "react-redux";
 import PlayListHeader from "./PlayListHeader";
 import SongTable from "./SongTable";
 import DropZone from "./DropZone/DropZone";
-import { addCurrentSong, addSongs } from "../../redux/songSlice";
+import {
+  getAllMp3FromIndexedDB,
+  saveCurrentMp3ToIndexedDB,
+  saveMp3ToIndexedDB,
+} from "../../services/indexedDBController";
+import { useEffect, useState } from "react";
 //import jsmediatags from "jsmediatags";
 
 const PlayList = () => {
-  const { songs } = useSelector((state) => state.songs);
-  const dispatch = useDispatch();
+  const [songs, setSongs] = useState([{}]);
+
+  //const dispatch = useDispatch();
   const handleFiles = (files) => {
     //Convertimos en un array regular para usar sus métodos
     const filesList = Array.from(files);
@@ -23,7 +28,7 @@ const PlayList = () => {
                 title: title || file.name,
                 artist: artist || "Unknown",
                 album: album || "Unknown",
-                cover: URL.createObjectURL(file),
+                cover: file,
               });
             },
             onError: (error) => {
@@ -35,17 +40,27 @@ const PlayList = () => {
 
     Promise.all(promises)
       .then((newList) => {
-        dispatch(addSongs(newList));
-        dispatch(addCurrentSong(newList[0].id));
+        //        dispatch(addSongs(newList));
+        //      dispatch(addCurrentSong(newList[0].id));
+        saveMp3ToIndexedDB(newList);
+        saveCurrentMp3ToIndexedDB(newList[0]);
       })
       .catch((error) => {
         console.error(error);
       });
   };
 
+  useEffect(() => {
+    const getSongs = async () => {
+      const songs = await getAllMp3FromIndexedDB();
+      console.log(songs);
+      setSongs(songs);
+    };
+    getSongs();
+  }, []);
   return (
-    <div className="play__list__container  rounded-xl h-full overflow-hidden  ">
-      <div className="h-full rounded-xl overflow-auto border-red-400 ">
+    <div className="play__list__container  xs:rounded-none lg:rounded-xl h-full overflow-hidden  ">
+      <div className="h-full xs:rounded-none lg:rounded-xl overflow-auto border-red-400 ">
         {songs.length == 0 ? (
           <DropZone onFiles={handleFiles} />
         ) : (
@@ -53,6 +68,7 @@ const PlayList = () => {
             <PlayListHeader />
             <SongTable />
           </>
+          //</div></>
         )}
       </div>
     </div>

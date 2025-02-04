@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const SeekBarResponsive = ({ duration, currentTime, onSeek, audioElement }) => {
   const seekBarRef = useRef(0);
-  console.log("SeekBar ");
+  console.log("SeekBar Responsive");
   //const [isDragging, setIsDragging] = useState(false);
   const progressRef = useRef(null);
   const { currentTimeP } = useSelector((state) => state.playback);
@@ -17,8 +17,20 @@ const SeekBarResponsive = ({ duration, currentTime, onSeek, audioElement }) => {
     }
   }, []);
 
+  useEffect(() => {
+    const setCurrentTime = () => {
+      if (currentTimeP > 0) {
+        console.log("estableciendo tiempo", currentTimeP);
+        if (audioElement.current) {
+          onSeek(currentTimeP); // Límite entre 0 y duración
+        }
+        seekBarRef.current = 1;
+      }
+    };
+    setCurrentTime();
+  }, [audioElement]);
+
   if (!container) {
-    console.log("No container");
     return null; // No renderiza mientras no haya contenedor
   }
 

@@ -24,12 +24,16 @@ const SongRow = ({ data, number }) => {
         <span className="song__number text-lg">{number + 1}</span>
         <i className="ri-play-fill text-white text-lg  song__play__icon hidden "></i>
       </td>
-      <td className="w-max flex flex-col">
-        <span className="text-white">{data.title}</span>
-        <span className="text-white/80">{data.artist}</span>
+      <td className="xs:w-[150px] lg:w-max flex flex-col">
+        <span className="text-white overflow-hidden whitespace-nowrap text-ellipsis">
+          {data.title}
+        </span>
+        <span className="text-white/80 overflow-hidden whitespace-nowrap text-ellipsis">
+          {data.artist}
+        </span>
       </td>
       <td className="text-white/80 ">Albúm</td>
-      <td className="text-white/80 ">2.40</td>
+      <td className="text-white/80 text-center">2.40</td>
     </tr>
   );
 };

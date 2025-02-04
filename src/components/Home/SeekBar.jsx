@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 const SeekBar = ({ duration, currentTime, onSeek, audioElement }) => {
   const seekBarRef = useRef(0);
   console.log("SeekBar ");
-  //const [isDragging, setIsDragging] = useState(false);
   const progressRef = useRef(null);
   const { currentTimeP } = useSelector((state) => state.playback);
 
@@ -21,18 +20,27 @@ const SeekBar = ({ duration, currentTime, onSeek, audioElement }) => {
 */
 
   const progressPercentage = (currentTime / duration) * 100;
-  if (currentTimeP > 0 && audioElement.current && seekBarRef.current === 0) {
-    onSeek(Math.min(Math.max(currentTimeP, 0), duration)); // Límite entre 0 y duración
-    seekBarRef.current = 1;
-  }
 
   const handleDrag = (e) => {
     const rect = progressRef.current.getBoundingClientRect();
     const offsetX = e.clientX - rect.left;
     const newTime = (offsetX / rect.width) * duration;
     onSeek(Math.min(Math.max(newTime, 0), duration)); // Límite entre 0 y duración
+    console.log(newTime, " ", Math.min(Math.max(newTime, 0), duration));
   };
 
+  useEffect(() => {
+    const setCurrentTime = () => {
+      if (currentTimeP > 0) {
+        console.log("estableciendo tiempo", currentTimeP);
+        if (audioElement.current) {
+          onSeek(currentTimeP); // Límite entre 0 y duración
+        }
+        seekBarRef.current = 1;
+      }
+    };
+    setCurrentTime();
+  }, [audioElement]);
   return (
     <div
       className={` w-[600px] h-full flex flex-col gap-1 items-center justify-center `}

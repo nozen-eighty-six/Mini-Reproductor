@@ -15,7 +15,7 @@ const SwiperSlider = () => {
     //
     <section className="swiper__images xs:items-center lg:items-start text-white  grid pb-5  ">
       <Swiper
-        className="home__swiper    h-[380px]"
+        className="home__swiper h-[380px]"
         modules={[Autoplay]}
         loop={true}
         spaceBetween={-60}

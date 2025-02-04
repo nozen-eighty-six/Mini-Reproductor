@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setPlaying } from "./redux/playBackSlice";
 import { useEffect } from "react";
 import Login from "./pages/Login/Login";
+import Profile from "./components/Home/User/Profile";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/playlist",
         element: <PlayList />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },

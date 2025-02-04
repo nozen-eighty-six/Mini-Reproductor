@@ -78,7 +78,7 @@ const CreateAccount = ({ login, handleLogin }) => {
                 placeholder="Name"
                 value={form.name || ""}
                 onChange={handleChange}
-                className="w-1/2 py-3 px-3"
+                className="w-1/2 py-3 px-3 text-[clamp(1rem,2vw,1.25rem)]"
               />
               <input
                 type="text"
@@ -86,7 +86,7 @@ const CreateAccount = ({ login, handleLogin }) => {
                 placeholder="Last name"
                 value={form.lastName || ""}
                 onChange={handleChange}
-                className="w-1/2 py-3 px-3 "
+                className="w-1/2 py-3 px-3 text-[clamp(1rem,2vw,1.25rem)]"
               />
             </div>
             <div className="flex flex-col gap-4 h-[114px]">
@@ -110,7 +110,7 @@ const CreateAccount = ({ login, handleLogin }) => {
           </form>
           <button
             type="submit"
-            className="w-full bg-[#6e54b5] text-white py-2 px-3 rounded-md"
+            className="w-full bg-[#6e54b5] text-white py-2 px-3 rounded-md text-[clamp(1rem,2vw,1.25rem)]"
             onClick={handleSubmit}
           >
             Create account

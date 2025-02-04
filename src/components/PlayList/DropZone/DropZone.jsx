@@ -42,7 +42,7 @@ const DropZone = ({ onFiles }) => {
       onDragLeave={handleLeave}
       onClick={() => fileInputRef.current.click()}
     >
-      <p className="text-white/70 ">
+      <p className="text-white/70 text-center">
         Arrastra y suelta tus archivos o haz click para seleccionarlos
       </p>
       <input

@@ -1,15 +1,21 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import ArtistPlayer from "./ArtistPlayer";
 import AudioPlayer from "./AudioPlayer";
-import OptionsPlayer from "./OptionsPlayer";
-import { useDispatch, useSelector } from "react-redux";
-import { setVolumen } from "../../redux/playBackSlice";
+import { getCurrentMp3FromIndexedDB } from "../../services/indexedDBController";
 
 const MusicPlayer = () => {
   const audioElement = useRef(null);
-  const state = useSelector((state) => state.songs);
-  const dispatch = useDispatch();
-  console.log(state);
+
+  const [currentSong, setCurrentSong] = useState({});
+
+  useEffect(() => {
+    const getCurrentSong = async () => {
+      const song = await getCurrentMp3FromIndexedDB(1);
+      setCurrentSong(song);
+    };
+    getCurrentSong();
+  }, []);
+
   return (
     <div
       id="music-player"
@@ -17,12 +23,12 @@ const MusicPlayer = () => {
     >
       <div className="nav__container h-full flex  justify-between items-center ">
         <ArtistPlayer
-          songTitle={state.currentSong?.title || ""}
-          artistName={state.currentSong?.artist || ""}
+          songTitle={currentSong.title || ""}
+          artistName={currentSong.artist || ""}
         />
 
         <AudioPlayer
-          url={state.currentSong?.cover || ""}
+          url={currentSong.cover || ""}
           audioElement={audioElement}
         />
       </div>

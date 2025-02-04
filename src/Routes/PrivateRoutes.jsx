@@ -4,14 +4,22 @@ import Home from "../pages/Home/Home";
 import helpHttp from "../hooks/helpHttp";
 import { SERVER_URL } from "../Const/server";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const PrivateRoutes = () => {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user);
   //Validar cada vez que entra a Home para poder validar si el token es válido, sino para que lo redireccione a login
   useEffect(() => {
-    const validateToken = async () => {
-      console.log("Validando token...");
+    const validateUserAndToken = async () => {
       try {
+        console.log(user);
+        if (user == null || user == {}) {
+          alert("Por favor inicie sesión");
+          navigate("/login");
+          return;
+        }
+
         const res = await helpHttp().get(SERVER_URL + "/api/token", {
           credentials: "include",
         });
@@ -32,8 +40,8 @@ const PrivateRoutes = () => {
       }
     };
 
-    validateToken();
-  }, [navigate]);
+    validateUserAndToken();
+  }, [user]);
 
   return (
     <>

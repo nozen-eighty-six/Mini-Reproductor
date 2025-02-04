@@ -17,7 +17,7 @@ const Login = () => {
   //const signUpRef = useRef(null);
   console.log("LogIn padre");
   const [login, setLogin] = useState(true);
-
+  const currentWidth = window.innerWidth;
   const handleLogin = () => {
     setLogin((prev) => !prev);
   };
@@ -33,68 +33,44 @@ const Login = () => {
   return (
     <div className="login__container login  container rounded-md h-screen flex justify-center items-center ">
       <div className="w-[90%] h-[620px] rounded-md  p-4 bg-[#2b2738] flex  shadow-2xl lg:gap-5 xl:gap-3 2xl:gap-0 ">
-        <div
-          className="login__images h-full w-[50%] sm:hidden lg:block 
+        {currentWidth >= 1024 && (
+          <div
+            className="login__images h-full w-[50%] xs:hidden lg:block 
         "
-        >
-          <Swiper
-            className="home__swiper h-full  rounded-md "
-            modules={[Autoplay]}
-            loop={true}
-            spaceBetween={-60}
-            grabCursor={true}
-            slidesPerView={"auto"}
-            centeredSlides={true}
-            autoplay={{
-              delay: 4000,
-              disableOnInteraction: false,
-            }}
           >
-            <SwiperSlide className="w-full h-full rounded-md">
-              <img
-                src="../../../public/Images/akane.jpg"
-                alt="image-1"
-                className="w-full h-full rounded-md"
-              />
-            </SwiperSlide>
-            <SwiperSlide className="w-full h-full rounded-md">
-              <img
-                src="../../../public/Images/fan.jpg"
-                alt="image-1"
-                className="w-full h-full rounded-md"
-              />
-            </SwiperSlide>
-            <SwiperSlide className="w-full h-full rounded-md">
-              <img
-                src="../../../public/Images/kawa.jpg"
-                alt="image-1"
-                className="w-full h-full rounded-md"
-              />
-            </SwiperSlide>
-            <SwiperSlide className="w-full h-full rounded-md">
-              <img
-                src="../../../public/Images/chizuru.jpg"
-                alt="image-1"
-                className="w-full h-full rounded-md"
-              />
-            </SwiperSlide>
-            <SwiperSlide className="w-full h-full rounded-md">
-              <img
-                src="../../../public/Images/koe.jpg"
-                alt="image-1"
-                className="w-full h-full rounded-md"
-              />
-            </SwiperSlide>
-            <SwiperSlide className="w-full h-full rounded-md">
-              <img
-                src="../../../public/Images/yumeko.jpg"
-                alt="image-1"
-                className="w-full h-full rounded-md"
-              />
-            </SwiperSlide>
-          </Swiper>
-        </div>
-        <div className=" h-full sm:w-[100%] lg:w-[50%]  flex justify-center items-center relative">
+            <Swiper
+              className="home__swiper h-full  rounded-md xs:hidden lg:block"
+              modules={[Autoplay]}
+              loop={true}
+              spaceBetween={-60}
+              grabCursor={true}
+              slidesPerView={"auto"}
+              centeredSlides={true}
+              autoplay={{
+                delay: 4000,
+                disableOnInteraction: false,
+              }}
+            >
+              {[
+                "akane.jpg",
+                "fan.jpg",
+                "kawa.jpg",
+                "chizuru.jpg",
+                "koe.jpg",
+                "yumeko.jpg",
+              ].map((image, index) => (
+                <SwiperSlide key={index} className="w-full h-full rounded-md">
+                  <img
+                    src={`/Images/${image}`} // Ruta desde la raíz del proyecto
+                    alt={`image-${index + 1}`}
+                    className="w-full h-full rounded-md object-cover"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        )}
+        <div className=" h-full xs:w-[100%] lg:w-[50%]  flex justify-center items-center relative">
           {login && <LogIn login={login} handleLogin={handleLogin} />}
           {!login && (
             <CreateAccount

@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 const ArtistPlayer = ({ songTitle, artistName }) => {
-  console.log("ArtistPlayer ");
   return (
     <div className="artist__container flex  gap-4">
       <img

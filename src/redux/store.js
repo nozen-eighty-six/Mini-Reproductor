@@ -1,6 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
-import songsReducer from "./songSlice";
 import playbackReducer from "./playBackSlice";
 import userReducer from "./userSlice";
 import storage from "redux-persist/lib/storage";
@@ -16,11 +15,11 @@ import { thunk } from "redux-thunk";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["songs", "playback", "user"],
+  whiteList: ["playback", "user"],
 };
 
 const rootReducer = combineReducers({
-  songs: songsReducer,
+  //  songs: songsReducer,
   playback: playbackReducer,
   user: userReducer,
 });

@@ -63,14 +63,20 @@ const OptionsPlayer = ({ onSeek, audioElement }) => {
       <i className="ri-heart-line"></i>
         
         */}{" "}
-      <i className="ri-shuffle-line"></i>
+      <i className="ri-shuffle-line lg:text-sm  xl:text-base"></i>
       {!loop ? (
-        <i className="ri-repeat-2-line" onClick={handleLoop}></i>
+        <i
+          className="ri-repeat-2-line lg:text-sm  xl:text-base"
+          onClick={handleLoop}
+        ></i>
       ) : (
-        <i className="ri-repeat-one-line" onClick={handleLoop}></i>
+        <i
+          className="ri-repeat-one-line lg:text-sm  xl:text-base"
+          onClick={handleLoop}
+        ></i>
       )}{" "}
       <div className="flex items-center w-[130px] gap-2">
-        <i className="ri-volume-up-line"></i>
+        <i className="ri-volume-up-line lg:text-sm  xl:text-base"></i>
         <div
           className="relative proggres__bar h-[2px] bg-gray-600 rounded cursor-pointer"
           ref={progressRef}
