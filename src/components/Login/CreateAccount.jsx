@@ -1,7 +1,7 @@
 import { useState } from "react";
 import helpHttp from "../../hooks/helpHttp";
 import { SERVER_URL } from "../../Const/server";
-import Alert from "../Alert";
+import Alert from "../Reusable/Alert";
 
 const CreateAccount = ({ login, handleLogin }) => {
   /* document.addEventListener("click", (e) => {
@@ -78,7 +78,7 @@ const CreateAccount = ({ login, handleLogin }) => {
                 placeholder="Name"
                 value={form.name || ""}
                 onChange={handleChange}
-                className="w-1/2 py-3 px-3 text-[clamp(1rem,2vw,1.25rem)]"
+                className="w-1/2 h-[48px] px-3 text-[clamp(1rem,2vw,1.25rem)] border-2 border-transparent"
               />
               <input
                 type="text"
@@ -86,17 +86,17 @@ const CreateAccount = ({ login, handleLogin }) => {
                 placeholder="Last name"
                 value={form.lastName || ""}
                 onChange={handleChange}
-                className="w-1/2 py-3 px-3 text-[clamp(1rem,2vw,1.25rem)]"
+                className="w-1/2 h-[48px] px-3 text-[clamp(1rem,2vw,1.25rem)] border-2 border-transparent"
               />
             </div>
-            <div className="flex flex-col gap-4 h-[114px]">
+            <div className="flex flex-col gap-4 h-[116px]">
               <input
                 type="email"
                 name="email"
                 placeholder="Email"
                 value={form.email || ""}
                 onChange={handleChange}
-                className="py-3 px-3"
+                className="h-[48px] px-3 border-2 border-transparent"
               />
               <input
                 type="password"
@@ -104,7 +104,7 @@ const CreateAccount = ({ login, handleLogin }) => {
                 value={form.password || ""}
                 onChange={handleChange}
                 placeholder="Enter your password"
-                className="py-3 px-3"
+                className="h-[48px] px-3 border-2 border-transparent"
               />
             </div>
           </form>

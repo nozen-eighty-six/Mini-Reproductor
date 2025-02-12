@@ -99,7 +99,7 @@ const LogIn = ({ login, handleLogin }) => {
                 name="email"
                 type="email"
                 placeholder="Email"
-                className="py-3 px-3 text-[clamp(1rem,2vw,1.25rem)]"
+                className="h-[48px] px-3 text-[clamp(1rem,2vw,1.25rem)] transition-[border] duration-75  border-2 border-transparent"
                 value={form.email || ""}
                 onChange={handleChange}
               />
@@ -107,7 +107,7 @@ const LogIn = ({ login, handleLogin }) => {
                 name="password"
                 type="password"
                 placeholder="Enter your password"
-                className="py-3 px-3 text-[clamp(1rem,2vw,1.25rem)]"
+                className="h-[48px] px-3 text-[clamp(1rem,2vw,1.25rem)] transition-[border] duration-75 border-2 border-transparent"
                 value={form.password || ""}
                 onChange={handleChange}
               />

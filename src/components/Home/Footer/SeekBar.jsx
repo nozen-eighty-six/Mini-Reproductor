@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
+import LoadingBar from "../../Reusable/LoadingBar";
 
 const SeekBar = ({ duration, currentTime, onSeek, audioElement }) => {
   const seekBarRef = useRef(0);
-  console.log("SeekBar ");
+  //console.log("SeekBar ");
   const progressRef = useRef(null);
   const { currentTimeP } = useSelector((state) => state.playback);
-
+  //console.log("currentTimeP", currentTime + " " + duration);
   // Calcula el porcentaje del progreso actual
   /*(if (currentTimeP > 0) {
     currentTime = currentTimeP;
@@ -32,7 +33,7 @@ const SeekBar = ({ duration, currentTime, onSeek, audioElement }) => {
   useEffect(() => {
     const setCurrentTime = () => {
       if (currentTimeP > 0) {
-        console.log("estableciendo tiempo", currentTimeP);
+        //    console.log("estableciendo tiempo", currentTimeP);
         if (audioElement.current) {
           onSeek(currentTimeP); // Límite entre 0 y duración
         }
@@ -41,9 +42,9 @@ const SeekBar = ({ duration, currentTime, onSeek, audioElement }) => {
     };
     setCurrentTime();
   }, [audioElement]);
-  return (
+  return currentTime >= 0 && duration ? (
     <div
-      className={` w-[600px] h-full flex flex-col gap-1 items-center justify-center `}
+      className={`lg:w-[400px] xl:w-[600px] h-full flex flex-col gap-1 items-center justify-center `}
     >
       {/* Barra de progreso */}
       <div
@@ -75,6 +76,8 @@ const SeekBar = ({ duration, currentTime, onSeek, audioElement }) => {
         </span>
       </div>
     </div>
+  ) : (
+    <LoadingBar />
   );
 };
 

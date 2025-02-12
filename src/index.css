@@ -103,6 +103,33 @@ span {
   scale: 1;
   z-index: 10000;
 }
+/*PLAYLIST*/
+/*@keyframes register-animate-fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}*/
+@keyframes playlist-animate-fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.playlist-animate-fadeInUp {
+  animation: playlist-animate-fadeInUp 0.8s ease-out;
+}
+
 /*PLAYLIST-HEADER*/
 .play__list__icon__container {
   /*background: linear-gradient(135deg, #2575fc, #2575fc, #fff);*/

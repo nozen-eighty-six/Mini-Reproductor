@@ -8,6 +8,7 @@ const playBackSlice = createSlice({
     duration: 0,
     volume: 1,
     loop: false,
+    currentSongChanged: false,
   },
   reducers: {
     setPlaying: (state, action) => {
@@ -25,6 +26,9 @@ const playBackSlice = createSlice({
     setVolumen: (state, action) => {
       state.volume = action.payload;
     },
+    setCurrentSongChanged: (state, action) => {
+      state.currentSongChanged = action.payload;
+    },
   },
 });
 
@@ -34,5 +38,6 @@ export const {
   setDurationP,
   setLoopP,
   setVolumen,
+  setCurrentSongChanged,
 } = playBackSlice.actions;
 export default playBackSlice.reducer;

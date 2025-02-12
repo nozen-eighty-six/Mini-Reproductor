@@ -1,6 +1,6 @@
 import { createBrowserRouter, Outlet, useNavigate } from "react-router";
 import PlayerNav from "../components/PlayerNav";
-import Home from "../pages/Home/Home";
+import Home from "../pages/Home";
 import helpHttp from "../hooks/helpHttp";
 import { SERVER_URL } from "../Const/server";
 import { useEffect } from "react";
@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const PrivateRoutes = () => {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user) || null;
   //Validar cada vez que entra a Home para poder validar si el token es válido, sino para que lo redireccione a login
   useEffect(() => {
     const validateUserAndToken = async () => {
@@ -23,7 +23,7 @@ const PrivateRoutes = () => {
         const res = await helpHttp().get(SERVER_URL + "/api/token", {
           credentials: "include",
         });
-        console.log("Respuesta del servidor:", res);
+        //console.log("Respuesta del servidor:", res);
 
         // Validar si el token es válido
         if (!res.valid) {

@@ -5,11 +5,15 @@ import MusicPlayer from "./Home/MusicPlayer";
 import { getGreetingByTime } from "../services/greeting";
 import UserMenu from "./Home/User/UserMenu";
 import { useState } from "react";
+import AddSongButton from "./AddSongButton";
+import { useSong } from "../hooks/useSong";
 
 const PlayerNav = () => {
   const { user } = useSelector((state) => state.user);
   const [showMenu, setShowMenu] = useState(false);
-
+  //const [update, setUpdate] = useState(false);
+  // const { handleInputChange } = useSong(setUpdate);
+  const currentWidth = window.innerWidth;
   const handleShowMenu = () => {
     if (!showMenu == false) {
       const timeOut = setTimeout(() => {
@@ -46,15 +50,7 @@ const PlayerNav = () => {
                   <span className=" lg:inline">Home</span>
                 </NavLink>
               </li>
-              <li className="nav__item">
-                <NavLink
-                  to={"/categories"}
-                  className="nav__link xs:inline-flex xs:flex-col xs:justify-center lg:flex-row lg:justify-normal w-full h-full"
-                >
-                  <i className="ri-list-unordered"></i>
-                  <span className=" lg:inline">Categories</span>
-                </NavLink>
-              </li>
+
               <li className="nav__item">
                 <NavLink
                   to={"/playlist"}
@@ -64,6 +60,12 @@ const PlayerNav = () => {
                   <span className=" lg:inline">Playlist</span>
                 </NavLink>
               </li>
+              {/**
+                 *   <li className="nav__item lg:hidden">
+                <AddSongButton handleInputChange={handleInputChange} />
+              </li>
+                 */}
+
               <li className="nav__item lg:hidden">
                 <NavLink
                   to={"/logo"}
@@ -140,8 +142,7 @@ const PlayerNav = () => {
           </button>
         </div>
       </div>
-      <MusicPlayer />
-      <MusicPlayerFooter />
+      {currentWidth >= 1024 ? <MusicPlayerFooter /> : <MusicPlayer />}
     </>
   );
 };

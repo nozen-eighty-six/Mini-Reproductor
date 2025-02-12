@@ -1,20 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import ArtistPlayer from "./ArtistPlayer";
 import AudioPlayer from "./AudioPlayer";
-import { getCurrentMp3FromIndexedDB } from "../../services/indexedDBController";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentSongChanged } from "../../../redux/playBackSlice";
+import { useCurrentSong } from "../../../hooks/useCurrentSong";
 
 const MusicPlayer = () => {
   const audioElement = useRef(null);
-
-  const [currentSong, setCurrentSong] = useState({});
+  const { currentSongChanged } = useSelector((state) => state.playback);
+  const { getCurrentSong, currentSong } = useCurrentSong();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const getCurrentSong = async () => {
-      const song = await getCurrentMp3FromIndexedDB(1);
-      setCurrentSong(song);
-    };
     getCurrentSong();
   }, []);
+
+  useEffect(() => {
+    if (currentSongChanged) {
+      getCurrentSong();
+      dispatch(setCurrentSongChanged(false));
+    }
+  }, [currentSongChanged]);
 
   return (
     <div

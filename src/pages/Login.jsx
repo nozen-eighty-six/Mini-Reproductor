@@ -9,8 +9,8 @@ import {
   A11y,
   Autoplay,
 } from "swiper/modules";
-import CreateAccount from "../../components/Login/CreateAccount";
-import LogIn from "../../components/Login/LogIn";
+import CreateAccount from "../components/Login/CreateAccount";
+import LogIn from "../components/Login/LogIn";
 
 const Login = () => {
   // const loginRef = useRef(null);

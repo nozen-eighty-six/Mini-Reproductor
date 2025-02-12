@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setLoopP } from "../../redux/playBackSlice";
+import { setLoopP } from "../../../redux/playBackSlice";
 import { useRef } from "react";
 import PropTypes from "prop-types";
 const OptionsPlayer = ({ onSeek, audioElement }) => {
-  console.log("OptionsPlayer ");
+  //console.log("OptionsPlayer ");
   const progressRef = useRef(null);
   const volumentTotalRef = useRef(1);
   const { loop, volume } = useSelector((state) => state.playback);

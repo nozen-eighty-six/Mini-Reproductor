@@ -1,25 +1,14 @@
 import { useEffect, useState } from "react";
 import PlayListControls from "./PlayListControls";
-import songList from "../../data/song";
+import songList from "../../../data/song";
 import SongRow from "./SongRow";
 import { useSelector } from "react-redux";
-import { getAllMp3FromIndexedDB } from "../../services/indexedDBController";
+import { getAllMp3FromIndexedDB } from "../../../services/indexedDBController";
 
-const SongTable = () => {
-  const [songs, setSongs] = useState([{}]);
-
-  useEffect(() => {
-    const getSongs = async () => {
-      const songs = await getAllMp3FromIndexedDB();
-      console.log(songs);
-      setSongs(songs);
-    };
-    getSongs();
-  }, []);
-
+const SongTable = ({ songs, handleInputChange }) => {
   return (
     <div className="song__table  p-4  ">
-      <PlayListControls />
+      <PlayListControls handleInputChange={handleInputChange} />
       <div className="w-full">
         <table className="w-full">
           <thead className="mb-3">

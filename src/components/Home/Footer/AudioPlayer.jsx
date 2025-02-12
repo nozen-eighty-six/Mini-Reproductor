@@ -1,28 +1,28 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import SeekBar from "./SeekBar";
-import MusicControls from "./MusicControls";
+import MusicControls from "../MusicControls";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentTimeP, setDurationP } from "../../redux/playBackSlice";
+import { setCurrentTimeP, setDurationP } from "../../../redux/playBackSlice";
 import PropTypes from "prop-types";
 import SeekBarResponsive from "./SeekBarResponsive";
-import { getCurrentMp3FromIndexedDB } from "../../services/indexedDBController";
 const AudioPlayer = ({ url, audioElement }) => {
+  console.log("AudioPlayer");
   const currentWidth = window.innerWidth;
-  const { isPlaying, loop } = useSelector((state) => state.playback);
+  const { loop } = useSelector((state) => state.playback);
   const audioPlayerRef = useRef(0);
-  const [currentSong, setCurrentSong] = useState({});
+  //const [currentSong, setCurrentSong] = useState({});
   const dispatch = useDispatch();
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const getCurrentSong = async () => {
       const song = await getCurrentMp3FromIndexedDB(1);
       setCurrentSong(song);
     };
     getCurrentSong();
   }, []);
-
+*/
   const handleTimeUpdate = () => {
     setCurrentTime(audioElement.current.currentTime);
   };
@@ -64,14 +64,14 @@ const AudioPlayer = ({ url, audioElement }) => {
     <>
       <div
         id="audio-player"
-        className="audio-player flex flex-col items-center gap-2"
+        className="audio-player  flex flex-col items-center gap-2"
       >
         <MusicControls play={play} stop={stop} />
 
         <audio
           className="hidden"
           ref={audioElement}
-          src={`${url || currentSong.cover}`}
+          src={`${url}`}
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
           controls

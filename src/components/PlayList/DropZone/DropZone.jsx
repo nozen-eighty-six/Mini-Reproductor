@@ -25,12 +25,12 @@ const DropZone = ({ onFiles }) => {
     //setIsDragging(false);
   };
   //Cuando quiero hacer click manualmente para seleccionar archivos
-  const handleFileInputChange = (e) => {
+  /*const handleFileInputChange = (e) => {
     const files = e.target.files;
     if (files.length > 0) {
       onFiles(files);
     }
-  };
+  };*/
   return (
     <div
       className={`dropzone w-full h-full flex justify-center
@@ -52,7 +52,7 @@ const DropZone = ({ onFiles }) => {
         multiple
         style={{ display: "none" }}
         accept=".mp3,.wav,.ogg"
-        onChange={handleFileInputChange}
+        onChange={onFiles}
       />
     </div>
   );

@@ -1,14 +1,14 @@
 import "./App.css";
 import "swiper/swiper-bundle.css";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import Home from "./pages/Home/Home";
 import PrivateRoutes from "./Routes/PrivateRoutes";
-import PlayList from "./components/PlayList/PlayList";
 import { useDispatch } from "react-redux";
 import { setPlaying } from "./redux/playBackSlice";
 import { useEffect } from "react";
-import Login from "./pages/Login/Login";
+import Login from "./pages/Login";
 import Profile from "./components/Home/User/Profile";
+import Home from "./pages/Home";
+import PlayList from "./components/PlayList/PlayList";
 
 const router = createBrowserRouter([
   {
