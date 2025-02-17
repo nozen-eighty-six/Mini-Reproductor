@@ -1,41 +1,43 @@
 import { createPortal } from "react-dom";
-import SeekBar from "./SeekBar";
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import AudioPlayer from "./AudioPlayer";
 import ArtistPlayer from "./ArtistPlayer";
 import OptionsPlayer from "./OptionsPlayer";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setCurrentSongChanged,
-  setVolumen,
-} from "../../../redux/playBackSlice";
+import { setCurrentSongChanged } from "../../../redux/playBackSlice";
 import { getCurrentMp3FromIndexedDB } from "../../../services/indexedDBController";
+//memo
 const MusicPlayerFooter = () => {
+  console.log("MusicPlayerFooter");
+
   const audioElement = useRef(null);
   const [currentSong, setCurrentSong] = useState({});
-  const { currentSongChanged } = useSelector((state) => state.playback);
+  const currentSongChanged = useSelector(
+    (state) => state.playback.currentSongChanged
+  );
   const dispatch = useDispatch();
-  const currentWidth = window.innerWidth;
+  const [currentWidth, setCurrentWidth] = useState(window.innerWidth);
+
+  const getCurrentSong = useCallback(async () => {
+    const song = await getCurrentMp3FromIndexedDB("current");
+    setCurrentSong(song);
+  }, []);
 
   useEffect(() => {
-    const getCurrentSong = async () => {
-      const song = await getCurrentMp3FromIndexedDB(1, "current");
-      console.log("Ejecutando getCurrentSong de inicio");
-      setCurrentSong(song);
-    };
-    getCurrentSong();
+    const handleReSize = () => setCurrentWidth(window.innerWidth);
+    window.addEventListener("resize", handleReSize);
+    return () => window.removeEventListener("resize", handleReSize);
   }, []);
+
   useEffect(() => {
-    if (currentSongChanged == true) {
+    if (Object.keys(currentSong).length == 0) getCurrentSong();
+    if (currentSongChanged) {
       console.log("Ejecutando getCurrentSong de update");
-      const getCurrentSong = async () => {
-        const song = await getCurrentMp3FromIndexedDB(1, "current");
-        setCurrentSong(song);
-      };
       getCurrentSong();
       dispatch(setCurrentSongChanged(false));
     }
   }, [currentSongChanged]);
+
   return createPortal(
     <footer className="music-player-footer xs:hidden lg:block bg-[#181b22] h-[100px] ">
       {currentWidth >= 1024 && (
@@ -50,10 +52,7 @@ const MusicPlayerFooter = () => {
               url={currentSong.cover || ""}
               audioElement={audioElement}
             />
-            <OptionsPlayer
-              onSeek={(newVolume) => dispatch(setVolumen(newVolume))}
-              audioElement={audioElement}
-            />
+            <OptionsPlayer audioElement={audioElement} />
           </div>
         </>
       )}
@@ -61,5 +60,4 @@ const MusicPlayerFooter = () => {
     document.body
   );
 };
-
 export default MusicPlayerFooter;

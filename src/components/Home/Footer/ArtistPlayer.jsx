@@ -1,14 +1,18 @@
 import PropTypes from "prop-types";
-const ArtistPlayer = ({ songTitle, artistName }) => {
+import { memo, useCallback } from "react";
+import musicImage from "/Images/light-two-fingers.jpg";
+const ArtistPlayer = memo(({ songTitle, artistName }) => {
+  const handleAnimationEnd = useCallback((e) => {
+    e.target.classList.remove("playlist-animate-fadeInUp");
+  }, []);
+
   return (
     <div
       className="artist__container flex  gap-4 playlist-animate-fadeInUp"
-      onAnimationEnd={(e) =>
-        e.target.classList.remove("playlist-animate-fadeInUp")
-      }
+      onAnimationEnd={handleAnimationEnd}
     >
       <img
-        src="../../../public/Images/light-two-fingers.jpg"
+        src={musicImage}
         alt="artist__img"
         className="artist__img h-[50px] w-[50px] rounded-full"
       />
@@ -22,7 +26,9 @@ const ArtistPlayer = ({ songTitle, artistName }) => {
       </div>
     </div>
   );
-};
+});
+
+ArtistPlayer.displayName = "ArtistPlayer";
 
 ArtistPlayer.propTypes = {
   songTitle: PropTypes.string,

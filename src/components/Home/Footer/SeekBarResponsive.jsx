@@ -4,10 +4,8 @@ import { useSelector } from "react-redux";
 
 const SeekBarResponsive = ({ duration, currentTime, onSeek, audioElement }) => {
   const seekBarRef = useRef(0);
-  console.log("SeekBar Responsive");
-  //const [isDragging, setIsDragging] = useState(false);
   const progressRef = useRef(null);
-  const { currentTimeP } = useSelector((state) => state.playback);
+  const currentTimeP = useSelector((state) => state.playback.currentTimeP);
   const [container, setContainer] = useState(null);
 
   useEffect(() => {
@@ -35,10 +33,11 @@ const SeekBarResponsive = ({ duration, currentTime, onSeek, audioElement }) => {
   }
 
   const progressPercentage = (currentTime / duration) * 100;
-  if (currentTimeP > 0 && audioElement.current && seekBarRef.current === 0) {
+
+  /*if (currentTimeP > 0 && audioElement.current && seekBarRef.current === 0) {
     onSeek(Math.min(Math.max(currentTimeP, 0), duration)); // Límite entre 0 y duración
     seekBarRef.current = 1;
-  }
+  }*/
 
   const handleDrag = (e) => {
     const rect = progressRef.current.getBoundingClientRect();

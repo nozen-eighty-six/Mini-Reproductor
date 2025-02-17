@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import SwiperSlider from "../../components/Home/SwiperSlider";
+import SwiperSlider from "../components/Reusable/SwiperSlider";
 
 const Home = () => {
   useEffect(() => {

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 
 const Profile = () => {
-  const { user } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
 
   return (
     <div className="profile__container p-4">

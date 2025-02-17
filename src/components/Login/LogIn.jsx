@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { redirect, useNavigate } from "react-router";
-import helpHttp from "../../hooks/helpHttp";
 
 import { SERVER_URL } from "../../Const/server";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/userSlice";
+import helpHttp from "../../helpers/helpHttp";
 
 const LogIn = ({ login, handleLogin }) => {
   /* document.addEventListener("click", (e) => {

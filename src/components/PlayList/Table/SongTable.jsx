@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import PlayListControls from "./PlayListControls";
 import songList from "../../../data/song";
-import SongRow from "./SongRow";
 import { useSelector } from "react-redux";
 import { getAllMp3FromIndexedDB } from "../../../services/indexedDBController";
+import PlayListControls from "../Header/PlayListControls";
+import SongRow from "./SongRow";
 
 const SongTable = ({ songs, handleInputChange }) => {
   return (

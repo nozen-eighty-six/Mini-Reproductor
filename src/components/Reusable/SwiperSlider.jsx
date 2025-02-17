@@ -13,9 +13,9 @@ import "swiper/css/navigation";
 const SwiperSlider = () => {
   return (
     //
-    <section className="swiper__images xs:items-center lg:items-start text-white  grid pb-5  ">
+    <section className="swiper__images xs:items-center lg:items-start text-white  grid lg:pb-5  border">
       <Swiper
-        className="home__swiper h-[380px]"
+        className="home__swiper h-[380px] border"
         modules={[Autoplay]}
         loop={true}
         spaceBetween={-60}

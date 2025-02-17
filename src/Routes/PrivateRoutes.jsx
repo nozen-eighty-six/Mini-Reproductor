@@ -1,19 +1,19 @@
 import { createBrowserRouter, Outlet, useNavigate } from "react-router";
 import PlayerNav from "../components/PlayerNav";
 import Home from "../pages/Home";
-import helpHttp from "../hooks/helpHttp";
 import { SERVER_URL } from "../Const/server";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import helpHttp from "../helpers/helpHttp";
 
 const PrivateRoutes = () => {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user) || null;
+  const user = useSelector((state) => state.user.user) || null;
   //Validar cada vez que entra a Home para poder validar si el token es válido, sino para que lo redireccione a login
   useEffect(() => {
     const validateUserAndToken = async () => {
       try {
-        console.log(user);
+        //console.log(user);
         if (user == null || user == {}) {
           alert("Por favor inicie sesión");
           navigate("/login");

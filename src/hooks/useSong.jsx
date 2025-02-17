@@ -1,8 +1,5 @@
 import { useDispatch } from "react-redux";
-import {
-  saveCurrentMp3ToIndexedDB,
-  saveMp3ToIndexedDB,
-} from "../services/indexedDBController";
+import { saveMp3ToIndexedDB } from "../services/indexedDBController";
 import { setCurrentSongChanged } from "../redux/playBackSlice";
 import { useState } from "react";
 
@@ -21,7 +18,7 @@ export const useSong = () => {
     const filesList = Array.from(files);
 
     const promises = filesList.map(
-      (file, index) =>
+      (file) =>
         new Promise((resolve, reject) => {
           jsmediatags.read(file, {
             onSuccess: (tag) => {
@@ -43,14 +40,9 @@ export const useSong = () => {
 
     Promise.all(promises)
       .then(async (newList) => {
-        //await saveMp3ToIndexedDB(newList);
-        //await saveCurrentMp3ToIndexedDB(newList[0]);
-        const [save, saveCurrent] = await Promise.all([
-          saveMp3ToIndexedDB(newList),
-          saveCurrentMp3ToIndexedDB(newList[0]),
-        ]);
-        console.log(save, saveCurrent);
-        if (save && saveCurrent) {
+        const save = await saveMp3ToIndexedDB(newList);
+
+        if (save) {
           dispatch(setCurrentSongChanged(true));
           setUpdate((prev) => !prev);
         }

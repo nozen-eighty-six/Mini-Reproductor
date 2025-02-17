@@ -1,19 +1,19 @@
 import { NavLink } from "react-router";
-import MusicPlayerFooter from "./Home/MusicPlayerFooter";
 import { useSelector } from "react-redux";
-import MusicPlayer from "./Home/MusicPlayer";
 import { getGreetingByTime } from "../services/greeting";
 import UserMenu from "./Home/User/UserMenu";
-import { useState } from "react";
-import AddSongButton from "./AddSongButton";
-import { useSong } from "../hooks/useSong";
+import { useEffect, useState } from "react";
+import MusicPlayerFooter from "./Home/Footer/MusicPlayerFooter";
+import MusicPlayer from "./Home/Footer/MusicPlayer";
+import logo from "/Images/azur-lane-logo.png";
+import userImage from "/Images/user.jpg";
 
 const PlayerNav = () => {
-  const { user } = useSelector((state) => state.user);
+  console.log("PlayerNav");
+  const user = useSelector((state) => state.user.user);
   const [showMenu, setShowMenu] = useState(false);
-  //const [update, setUpdate] = useState(false);
-  // const { handleInputChange } = useSong(setUpdate);
-  const currentWidth = window.innerWidth;
+  const [currentWidth, setCurrentWidth] = useState(window.innerWidth);
+  /*
   const handleShowMenu = () => {
     if (!showMenu == false) {
       const timeOut = setTimeout(() => {
@@ -22,8 +22,24 @@ const PlayerNav = () => {
         setShowMenu(!showMenu);
       }, 600);
     } else setShowMenu(!showMenu);
+  };*/
+  const handleShowMenu = () => {
+    if (showMenu) {
+      setTimeout(() => {
+        console.log("timeout");
+        setShowMenu(false);
+      }, 600);
+    } else {
+      setShowMenu(true);
+    }
   };
 
+  useEffect(() => {
+    console.log("useEffect PlayerNav");
+    const handleCurrentWidth = () => setCurrentWidth(window.innerWidth);
+    window.addEventListener("resize", handleCurrentWidth);
+    return () => window.removeEventListener("resize", handleCurrentWidth);
+  }, []);
   return (
     <>
       {showMenu && <UserMenu handleShowMenu={handleShowMenu} />}
@@ -35,10 +51,9 @@ const PlayerNav = () => {
               xs:hidden lg:inline-flex 
             "
           >
-            <img src="/Images/azur-lane-logo.png" alt="" className="w-[15%]" />
+            <img src={logo} alt="" className="w-[15%]" />
             <span className="xs:hidden lg:inline">MiniPlayer</span>
           </a>
-
           <div className="nav__menu   xs:w-full xs:h-full ">
             <ul className="nav__list flex xs:w-full xs:h-full xs:flex-row xs:justify-between lg:flex-col lg:justify-normal gap-2 text-white ">
               <li className="nav__item">
@@ -60,8 +75,8 @@ const PlayerNav = () => {
                   <span className=" lg:inline">Playlist</span>
                 </NavLink>
               </li>
-              {/**
-                 *   <li className="nav__item lg:hidden">
+              {/*
+                    <li className="nav__item lg:hidden">
                 <AddSongButton handleInputChange={handleInputChange} />
               </li>
                  */}
@@ -71,11 +86,7 @@ const PlayerNav = () => {
                   to={"/logo"}
                   className="nav__link xs:inline-flex xs:flex-col xs:justify-center xs:gap-1  lg:flex-row lg:justify-normal  w-full h-full"
                 >
-                  <img
-                    src="/Images/azur-lane-logo.png"
-                    alt=""
-                    className="xs:w-[30px] lg:w-[15%]"
-                  />
+                  <img src={logo} alt="" className="xs:w-[30px] lg:w-[15%]" />
                   <span className=" lg:inline leading-[15px] text-center">
                     Mini Player
                   </span>
@@ -104,12 +115,12 @@ const PlayerNav = () => {
           >
             <div className="user__avatar  ">
               <a
-                href=""
+                role="button"
                 className="user__avatar-link w-full  "
                 onClick={(e) => e.preventDefault()}
               >
                 <img
-                  src="/Images/user-avatar.jpg"
+                  src={userImage}
                   alt=""
                   className="user__avatar-img h-[50px] w-[50px] rounded-full"
                 />
@@ -137,6 +148,7 @@ const PlayerNav = () => {
           <button
             className="nav__options__mobile__config_btn white p-2 "
             onClick={handleShowMenu}
+            aria-label="Open Settings"
           >
             <i className="ri-settings-3-line text-2xl text-white"></i>
           </button>

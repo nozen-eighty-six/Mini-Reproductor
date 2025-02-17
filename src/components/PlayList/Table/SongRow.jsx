@@ -1,15 +1,25 @@
-import { useDispatch } from "react-redux";
-import { setCurrentSongChanged, setPlaying } from "../../redux/playBackSlice";
-import { updateCurrentMp3FromIndexDB } from "../../services/indexedDBController";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import {
+  setCurrentSongChanged,
+  setPlaying,
+} from "../../../redux/playBackSlice";
+import { updateCurrentMp3FromIndexDB } from "../../../services/indexedDBController";
 const SongRow = ({ data, number }) => {
   const dispatch = useDispatch();
-  if (!data.title && !data.artist) return null;
+
   const playSong = async (el) => {
     const id = el.id;
     const updated = await updateCurrentMp3FromIndexDB(id);
     console.log("Updated", updated);
-    updated == true && dispatch(setCurrentSongChanged(true));
+    if (updated == true) {
+      dispatch(setCurrentSongChanged(true));
+      dispatch(setPlaying(true));
+    }
   };
+
+  if (!data.title && !data.artist) {
+    return null;
+  }
   return (
     <tr
       className="text-start song__row playlist-animate-fadeInUp "
@@ -26,7 +36,7 @@ const SongRow = ({ data, number }) => {
         }}
       >
         <span className="song__number text-lg">{number + 1}</span>
-        <i className="ri-play-fill text-white text-lg  song__play__icon hidden "></i>
+        <i className="ri-play-fill text-white text-lg  song__play__icon hidden hover:cursor-pointer"></i>
       </td>
       <td className="xs:w-[150px] lg:w-[300px] flex flex-col pt-1">
         <span className="text-white overflow-hidden whitespace-nowrap text-ellipsis">

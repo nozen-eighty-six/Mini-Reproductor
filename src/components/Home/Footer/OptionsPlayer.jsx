@@ -1,57 +1,61 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setLoopP } from "../../../redux/playBackSlice";
-import { useRef } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { setLoopP, setVolumen } from "../../../redux/playBackSlice";
+import { memo, useCallback, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-const OptionsPlayer = ({ onSeek, audioElement }) => {
-  //console.log("OptionsPlayer ");
+
+const OptionsPlayer = memo(({ audioElement }) => {
   const progressRef = useRef(null);
-  const volumentTotalRef = useRef(1);
-  const { loop, volume } = useSelector((state) => state.playback);
+  const VOLUME_MAX = 1;
+
+  const loop = useSelector((state) => state.playback.loop, shallowEqual);
+  const volume = useSelector((state) => state.playback.volume, shallowEqual);
+  const loopIcon = loop ? "ri-repeat-one-line" : "ri-repeat-2-line";
   const dispatch = useDispatch();
-  const progressPercentage = (volume / volumentTotalRef.current) * 100;
+  const progressPercentage = (volume / VOLUME_MAX) * 100;
 
-  const handleLoop = () => {
+  const handleLoop = useCallback(() => {
     dispatch(setLoopP(!loop));
-  };
+  }, [dispatch, loop]);
 
-  const handleDrag = (e) => {
-    /*getBoundingClientRect() es un método que devuelve las dimensiones y posiciones del elemento 
+  const handleDrag = useCallback(
+    (e) => {
+      /*getBoundingClientRect() es un método que devuelve las dimensiones y posiciones del elemento 
       con relación con el navegador. Devolverá un objeto
     */
-    const rect = progressRef.current.getBoundingClientRect();
-    console.log(rect);
-    console.log(e.clientX);
-    const offsetX = e.clientX - rect.left;
-    console.log(offsetX);
-    const newTime = (offsetX / rect.width) * volumentTotalRef.current;
-    console.log(newTime);
-    console.log(Math.min(Math.max(newTime, 0), volumentTotalRef.current));
-    onSeek(Math.min(Math.max(newTime, 0), volumentTotalRef.current)); // Límite entre 0 y duración
-    audioElement.current.volume = Math.min(
-      Math.max(newTime, 0),
-      volumentTotalRef.current
-    );
-  };
+      const rect = progressRef.current.getBoundingClientRect();
+      const offsetX = e.clientX - rect.left;
+      const newTime = (offsetX / rect.width) * VOLUME_MAX;
+      const clampedVolumen = Math.min(Math.max(newTime, 0), VOLUME_MAX);
+      dispatch(setVolumen(clampedVolumen)); // Límite entre 0 y duración
+      audioElement.current.volume = Math.min(Math.max(newTime, 0), VOLUME_MAX);
+    },
+    [dispatch]
+  );
 
-  const handleMouseDown = () => {
-    /*Código a ejecutar cuando se mueva el mouse (en este caso deslizar) */
-    const handleMouseMove = (e) => {
+  const handleMouseMove = useCallback(
+    (e) => {
       handleDrag(e);
-    };
+    },
+    [handleDrag]
+  );
 
-    /*Código a ejecutar cuando se deje manejar el mouse */
-    const handleMouseUp = () => {
+  const handleMouseUp = useCallback(() => {
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
+  }, []);
+
+  useEffect(() => {
+    return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-    /*Agregamos los eventos con sus métodos respectivos al lanzarse los eventos
-      cuando se mueva el mouse y cuando se deje de manejar el mouse se removerá los eventos
-    */
+  }, [handleMouseMove, handleMouseUp]);
+
+  const handleMouseDown = () => {
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
   };
-
-  // Método para calcular la posición al hacer clic
+  // Método para calcular la posición al hacer clic en la línea de duración del audio
   const handleClick = (e) => {
     console.log("click");
     handleDrag(e); // Llama al mismo método para calcular la posición al hacer clic
@@ -64,17 +68,10 @@ const OptionsPlayer = ({ onSeek, audioElement }) => {
         
         */}{" "}
       <i className="ri-shuffle-line lg:text-sm  xl:text-base"></i>
-      {!loop ? (
-        <i
-          className="ri-repeat-2-line lg:text-sm  xl:text-base"
-          onClick={handleLoop}
-        ></i>
-      ) : (
-        <i
-          className="ri-repeat-one-line lg:text-sm  xl:text-base"
-          onClick={handleLoop}
-        ></i>
-      )}{" "}
+      <i
+        className={`${loopIcon} lg:text-sm  xl:text-base`}
+        onClick={handleLoop}
+      ></i>
       <div className="flex items-center w-[130px] gap-2">
         <i className="ri-volume-up-line lg:text-sm  xl:text-base"></i>
         <div
@@ -95,10 +92,11 @@ const OptionsPlayer = ({ onSeek, audioElement }) => {
       </div>
     </div>
   );
-};
+});
 
+OptionsPlayer.displayName = "OptionsPlayer";
 OptionsPlayer.propTypes = {
-  onSeek: PropTypes.func.isRequired,
+  // onSeek: PropTypes.func.isRequired,
   audioElement: PropTypes.object.isRequired,
 };
 

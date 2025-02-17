@@ -1,65 +1,95 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import SeekBar from "./SeekBar";
-import MusicControls from "../MusicControls";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentTimeP, setDurationP } from "../../../redux/playBackSlice";
+import {
+  setCurrentSongChanged,
+  setCurrentTimeP,
+  setDurationP,
+} from "../../../redux/playBackSlice";
 import PropTypes from "prop-types";
+import MusicControls from "./MusicControls";
 import SeekBarResponsive from "./SeekBarResponsive";
-const AudioPlayer = ({ url, audioElement }) => {
+import SeekBar from "./SeekBar";
+import { executeNextElement } from "../../../services/indexedDBController";
+//Evitar renderizado innecesario si no cambian las props
+const AudioPlayer = memo(({ url, audioElement }) => {
   console.log("AudioPlayer");
-  const currentWidth = window.innerWidth;
-  const { loop } = useSelector((state) => state.playback);
-  const audioPlayerRef = useRef(0);
-  //const [currentSong, setCurrentSong] = useState({});
+  const [userInteracted, setUserInteracted] = useState(false);
+
+  const [currentWidth, setCurrentWidth] = useState(window.innerWidth);
+  const loop = useSelector((state) => state.playback.loop);
+  const currentSongChanged = useSelector(
+    (state) => state.playback.currentSongChanged
+  );
   const dispatch = useDispatch();
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  /* useEffect(() => {
-    const getCurrentSong = async () => {
-      const song = await getCurrentMp3FromIndexedDB(1);
-      setCurrentSong(song);
-    };
-    getCurrentSong();
-  }, []);
-*/
+  const currentTimeRef = useRef(0);
+
+  //Cada vez que cambie el tiempo del audio, auto se actualiza el tiempo actual
   const handleTimeUpdate = () => {
-    setCurrentTime(audioElement.current.currentTime);
+    const newTime = audioElement.current.currentTime;
+
+    if (Math.abs(newTime - currentTimeRef.current) > 0.1) {
+      // El cambio de tiempo es mayor a 0.1
+      currentTimeRef.current = newTime;
+      setCurrentTime(newTime);
+    }
+  };
+
+  const handleNextSong = async () => {
+    try {
+      await executeNextElement();
+      dispatch(setCurrentSongChanged(true));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleLoadedMetadata = () => {
-    setDuration(audioElement.current.duration);
-    dispatch(setDurationP(audioElement.current.duration)); // Usamos la acción del slice
+    if (audioElement.current) {
+      const duration = audioElement.current.duration;
+      setDuration(duration);
+      dispatch(setDurationP(duration)); // Usamos la acción del slice
+    }
   };
 
   const play = useCallback(() => {
-    if (audioElement.current !== null) {
-      console.log("Función play");
+    if (audioElement.current) {
       audioElement.current.play();
     }
-  }, [audioElement]);
+  }, []);
 
   const stop = useCallback(() => {
-    if (audioElement.current !== null) {
-      console.log("Función play");
-
+    if (audioElement.current) {
       audioElement.current.pause();
     }
-  }, [audioElement]);
+  }, []);
 
   const handlePause = () => {
     const currentTime = audioElement.current.currentTime;
     dispatch(setCurrentTimeP(currentTime)); // Usamos la acción del slice
   };
 
-  /* if (isPlaying && isPlaying !== null) {
-    console.log("Playing");
-    play();
-  }*/
+  useEffect(() => {
+    const handleCurrentWidth = () => setCurrentWidth(window.innerWidth);
+    window.addEventListener("resize", handleCurrentWidth);
+    const handleUserInteracted = () => setUserInteracted(true);
+    window.addEventListener("click", handleUserInteracted, { once: true });
+
+    return () => {
+      window.removeEventListener("resize", handleCurrentWidth);
+      window.removeEventListener("click", handleUserInteracted);
+    };
+  }, []);
 
   useEffect(() => {
-    return () => (audioPlayerRef.current = 0);
-  }, []);
+    if (url && userInteracted) {
+      console.log("Cambio de url");
+      play();
+    }
+  }, [url]);
+
   return (
     <>
       <div
@@ -76,6 +106,7 @@ const AudioPlayer = ({ url, audioElement }) => {
           onLoadedMetadata={handleLoadedMetadata}
           controls
           onPause={handlePause}
+          onEnded={handleNextSong}
           loop={loop}
         ></audio>
         {currentWidth < 1024 ? (
@@ -96,8 +127,9 @@ const AudioPlayer = ({ url, audioElement }) => {
       </div>
     </>
   );
-};
+});
 
+AudioPlayer.displayName = "AudioPlayer";
 AudioPlayer.propTypes = {
   url: PropTypes.string,
   audioElement: PropTypes.object,

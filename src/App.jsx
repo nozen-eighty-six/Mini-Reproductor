@@ -39,7 +39,6 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("App");
     dispatch(setPlaying(false));
   }, []);
   return <RouterProvider router={router} />;

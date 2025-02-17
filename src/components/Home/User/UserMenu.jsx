@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router";
@@ -8,18 +8,18 @@ const UserMenu = ({ handleShowMenu, showMenu }) => {
   const refUserNav = useRef(null);
   const dispatch = useDispatch();
   //Dejar un pequeño x para poder cerrarlo desde pantallas grandes.
-  const hideShowMenu = () => {
+  const hideShowMenu = useCallback(() => {
     refUserNav.current.classList.add("hide-animate-fadeInUp");
-  };
+  }, []);
+  const handleAnimationEnd = useCallback((e) => {
+    e.target.classList.remove("show-animate-fadeOutDown");
+  }, []);
 
   return createPortal(
     <aside
       className={`user-menu  show-animate-fadeInUp   xs:w-full xs:h-full lg:w-[200px] lg:h-max lg:border lg:border-gray-50/50 
          lg:rounded-md lg:-bottom-20 lg:right-0 bg-black text-white absolute z-50`}
-      onAnimationEnd={(e) => {
-        e.target.classList.remove("show-animate-fadeInUp");
-        //e.target.classList.remove("hide-animate-fadeOutDown");
-      }}
+      onAnimationEnd={handleAnimationEnd}
       ref={refUserNav}
     >
       <div className="relative xs:w-full xs:h-full  xs:py-16 xs:px-8  lg:pb-4 lg:px-3 lg:pt-6 ">

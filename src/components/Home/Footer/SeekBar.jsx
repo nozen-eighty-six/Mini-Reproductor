@@ -1,24 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
-import { createPortal } from "react-dom";
+import { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import LoadingBar from "../../Reusable/LoadingBar";
 
 const SeekBar = ({ duration, currentTime, onSeek, audioElement }) => {
   const seekBarRef = useRef(0);
-  //console.log("SeekBar ");
   const progressRef = useRef(null);
-  const { currentTimeP } = useSelector((state) => state.playback);
-  //console.log("currentTimeP", currentTime + " " + duration);
-  // Calcula el porcentaje del progreso actual
-  /*(if (currentTimeP > 0) {
-    currentTime = currentTimeP;
-  }
-
-  const progressPercentage =
-    currentTime != 0
-      ? (currentTimeP / duration) * 100
-      : (currentTime / duration) * 100;
-*/
+  const currentTimeP = useSelector((state) => state.playback.currentTimeP);
 
   const progressPercentage = (currentTime / duration) * 100;
 

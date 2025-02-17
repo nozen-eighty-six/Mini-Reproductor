@@ -1,9 +1,9 @@
-import PlayListHeader from "./PlayListHeader";
-import SongTable from "./Table/SongTable";
-import DropZone from "./DropZone/DropZone";
 import { getAllMp3FromIndexedDB } from "../../services/indexedDBController";
 import { useEffect, useState } from "react";
 import { useSong } from "../../hooks/useSong";
+import DropZone from "./DropZone/DropZone";
+import PlayListHeader from "./Header/PlayListHeader";
+import SongTable from "./Table/SongTable";
 //import jsmediatags from "jsmediatags";
 
 const PlayList = () => {
